@@ -13,12 +13,12 @@ namespace SourceCoding
         static void Main(string[] args)
         {
             Console.WriteLine("╔════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║          SOURCE CODING AND INFORMATION THEORY ANALYSIS          ║");
+            Console.WriteLine("║       ANALIZA KODIRANJA IZVORA I TEORIJE INFORMACIJA          ║");
             Console.WriteLine("╚════════════════════════════════════════════════════════════════╝\n");
 
-            // Load and analyze the test sequence
+            // Učitaj i analiziraj testnu sekvencu
             string testFile = "testna_sekvenca.txt";
-            Console.Write("Enter test file name (default: testna_sekvenca.txt): ");
+            Console.Write("Unesite naziv datoteke (default: testna_sekvenca.txt): ");
             string inputFile = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(inputFile))
                 testFile = inputFile;
@@ -26,34 +26,39 @@ namespace SourceCoding
             try
             {
                 string testSequence = EncoderDecoder.LoadFromFile(testFile);
-                Console.WriteLine($"\n✓ Loaded test sequence from '{testFile}'");
-                Console.WriteLine($"  Sequence length: {testSequence.Length} symbols\n");
+                Console.WriteLine($"\n✓ Učitana testna sekvenca iz '{testFile}'");
+                Console.WriteLine($"  Dužina sekvence: {testSequence.Length} simbola\n");
 
-                // Analyze the source directly from the file
+                // Sačuvaj originalnu sekvencu kao MirzadV_0source.txt
+                string sourceFilename = "MirzadV_0source.txt";
+                EncoderDecoder.SaveToFile(sourceFilename, testSequence);
+                Console.WriteLine($"✓ Originalna sekvenca sačuvana u '{sourceFilename}'\n");
+
+                // Analiziraj izvor direktno iz datoteke
                 var symbols = SourceAnalyzer.AnalyzeSequence(testSequence);
 
-                // Calculate entropy
+                // Izračunaj entropiju
                 Console.WriteLine("═══════════════════════════════════════════════════════════════");
-                Console.WriteLine("SOURCE ANALYSIS");
+                Console.WriteLine("ANALIZA IZVORA");
                 Console.WriteLine("═══════════════════════════════════════════════════════════════");
                 DisplaySourceInfo(symbols);
                 double entropy = SourceAnalyzer.CalculateEntropy(symbols);
-                Console.WriteLine($"\n✓ Source Entropy (H): {entropy:F4} bits/symbol\n");
+                Console.WriteLine($"\n✓ Entropija izvora (H): {entropy:F4} bita/simbol\n");
 
-                // Main menu loop
+                // Glavna petlja menija
                 bool exit = false;
                 while (!exit)
                 {
                     Console.WriteLine("\n═══════════════════════════════════════════════════════════════");
-                    Console.WriteLine("ENCODING ALGORITHM MENU");
+                    Console.WriteLine("MENI ALGORITAMA KODIRANJA");
                     Console.WriteLine("═══════════════════════════════════════════════════════════════");
-                    Console.WriteLine("Choose an encoding algorithm:");
-                    Console.WriteLine("  [1] Shannon-Fano Encoding");
-                    Console.WriteLine("  [2] Huffman Encoding");
-                    Console.WriteLine("  [3] Truncated Huffman Encoding (k=8)");
-                    Console.WriteLine("  [4] Run All Algorithms & Compare");
-                    Console.WriteLine("  [5] Exit");
-                    Console.Write("\nYour choice (1-5): ");
+                    Console.WriteLine("Izaberite algoritam kodiranja:");
+                    Console.WriteLine("  [1] Shannon-Fanov algoritam");
+                    Console.WriteLine("  [2] Obični Huffmanov algoritam");
+                    Console.WriteLine("  [3] Skraćeni Huffmanov algoritam (k=8)");
+                    Console.WriteLine("  [4] Pokreni sve algoritme i uporedi");
+                    Console.WriteLine("  [5] Izlaz");
+                    Console.Write("\nVaš izbor (1-5): ");
 
                     string choice = Console.ReadLine();
                     Console.WriteLine();
@@ -74,77 +79,76 @@ namespace SourceCoding
                             break;
                         case "5":
                             exit = true;
-                            Console.WriteLine("Thank you for using the Source Coding Analyzer!");
                             break;
                         default:
-                            Console.WriteLine("❌ Invalid choice. Please enter a number between 1 and 5.\n");
+                            Console.WriteLine("❌ Nevažeći izbor. Molimo unesite broj između 1 i 5.\n");
                             break;
                     }
 
                     if (!exit && choice != "4")
                     {
-                        Console.WriteLine("\nPress any key to return to menu...");
+                        Console.WriteLine("\nPritisnite bilo koji taster za povratak na meni...");
                         Console.ReadKey();
                         Console.Clear();
                         Console.WriteLine("╔════════════════════════════════════════════════════════════════╗");
-                        Console.WriteLine("║          SOURCE CODING AND INFORMATION THEORY ANALYSIS          ║");
+                        Console.WriteLine("║       ANALIZA KODIRANJA IZVORA I TEORIJE INFORMACIJA          ║");
                         Console.WriteLine("╚════════════════════════════════════════════════════════════════╝\n");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"\n❌ Error: {ex.Message}");
-                Console.WriteLine("Please ensure the test file exists in the current directory.");
+                Console.WriteLine($"\n❌ Greška: {ex.Message}");
+                Console.WriteLine("Molimo osigurajte da testna datoteka postoji u trenutnom direktoriju.");
             }
         }
 
         static void RunShannonFano(List<SymbolInfo> symbols, string testSequence, double entropy)
         {
             Console.WriteLine("═══════════════════════════════════════════════════════════════");
-            Console.WriteLine("SHANNON-FANO ENCODING");
+            Console.WriteLine("SHANNON-FANOV ALGORITAM");
             Console.WriteLine("═══════════════════════════════════════════════════════════════\n");
 
             var encoder = new ShannonFanoEncoder();
             var codes = encoder.Encode(symbols);
 
-            CodeAnalyzer.PrintAnalysis("Shannon-Fano", codes, symbols, entropy);
-            TestEncodingDecoding("Shannon-Fano", codes, testSequence, symbols);
+            CodeAnalyzer.PrintAnalysis("Shannon-Fanov algoritam", codes, symbols, entropy);
+            TestEncodingDecoding("Shannon-Fano", "SF", codes, testSequence, symbols);
         }
 
         static void RunHuffman(List<SymbolInfo> symbols, string testSequence, double entropy)
         {
             Console.WriteLine("═══════════════════════════════════════════════════════════════");
-            Console.WriteLine("HUFFMAN ENCODING");
+            Console.WriteLine("OBIČNI HUFFMANOV ALGORITAM");
             Console.WriteLine("═══════════════════════════════════════════════════════════════\n");
 
             var encoder = new HuffmanEncoder();
             var codes = encoder.Encode(symbols);
 
-            CodeAnalyzer.PrintAnalysis("Huffman", codes, symbols, entropy);
-            TestEncodingDecoding("Huffman", codes, testSequence, symbols);
+            CodeAnalyzer.PrintAnalysis("Obični Huffmanov algoritam", codes, symbols, entropy);
+            TestEncodingDecoding("Huffman", "NH", codes, testSequence, symbols);
         }
 
         static void RunTruncatedHuffman(List<SymbolInfo> symbols, string testSequence, double entropy)
         {
             Console.WriteLine("═══════════════════════════════════════════════════════════════");
-            Console.WriteLine("TRUNCATED HUFFMAN ENCODING (k=8)");
+            Console.WriteLine("SKRAĆENI HUFFMANOV ALGORITAM (k=8)");
             Console.WriteLine("═══════════════════════════════════════════════════════════════\n");
 
             var encoder = new TruncatedHuffmanEncoder(8);
             var codes = encoder.Encode(symbols);
 
-            CodeAnalyzer.PrintAnalysis("Truncated Huffman (k=8)", codes, symbols, entropy);
-            TestEncodingDecoding("Truncated-Huffman", codes, testSequence, symbols);
+            CodeAnalyzer.PrintAnalysis("Skraćeni Huffmanov algoritam (k=8)", codes, symbols, entropy);
+            TestEncodingDecoding("Truncated-Huffman", "TH", codes, testSequence, symbols);
         }
 
         static void RunAllAlgorithms(List<SymbolInfo> symbols, string testSequence, double entropy)
         {
             Console.WriteLine("═══════════════════════════════════════════════════════════════");
-            Console.WriteLine("RUNNING ALL ALGORITHMS");
+            Console.WriteLine("POKRETANJE SVIH ALGORITAMA");
             Console.WriteLine("═══════════════════════════════════════════════════════════════\n");
 
-            // Encode with all three algorithms
+            // Kodiraj sa sva tri algoritma
             var shannonFano = new ShannonFanoEncoder();
             var sfCodes = shannonFano.Encode(symbols);
 
@@ -154,116 +158,193 @@ namespace SourceCoding
             var truncatedHuffman = new TruncatedHuffmanEncoder(8);
             var truncatedCodes = truncatedHuffman.Encode(symbols);
 
-            // Show analysis for each
-            Console.WriteLine("\n--- SHANNON-FANO ANALYSIS ---");
-            CodeAnalyzer.PrintAnalysis("Shannon-Fano", sfCodes, symbols, entropy);
+            // Prikaži analizu za svaki
+            Console.WriteLine("\n--- SHANNON-FANOV ALGORITAM ---");
+            CodeAnalyzer.PrintAnalysis("Shannon-Fanov algoritam", sfCodes, symbols, entropy);
 
-            Console.WriteLine("\n\n--- HUFFMAN ANALYSIS ---");
-            CodeAnalyzer.PrintAnalysis("Huffman", huffmanCodes, symbols, entropy);
+            Console.WriteLine("\n\n--- OBIČNI HUFFMANOV ALGORITAM ---");
+            CodeAnalyzer.PrintAnalysis("Obični Huffmanov algoritam", huffmanCodes, symbols, entropy);
 
-            Console.WriteLine("\n\n--- TRUNCATED HUFFMAN ANALYSIS ---");
-            CodeAnalyzer.PrintAnalysis("Truncated Huffman (k=8)", truncatedCodes, symbols, entropy);
+            Console.WriteLine("\n\n--- SKRAĆENI HUFFMANOV ALGORITAM ---");
+            CodeAnalyzer.PrintAnalysis("Skraćeni Huffmanov algoritam (k=8)", truncatedCodes, symbols, entropy);
 
-            // Compare algorithms
+            // Uporedi algoritme
             Console.WriteLine("\n\n═══════════════════════════════════════════════════════════════");
-            Console.WriteLine("OPTIMALITY COMPARISON");
+            Console.WriteLine("POREĐENJE OPTIMALNOSTI");
             Console.WriteLine("═══════════════════════════════════════════════════════════════");
 
-            var sfStats = CodeAnalyzer.GetAlgorithmStats("Shannon-Fano", sfCodes, symbols, entropy);
-            var huffStats = CodeAnalyzer.GetAlgorithmStats("Huffman", huffmanCodes, symbols, entropy);
-            var truncStats = CodeAnalyzer.GetAlgorithmStats("Truncated Huffman", truncatedCodes, symbols, entropy);
+            var sfStats = CodeAnalyzer.GetAlgorithmStats("Shannon-Fanov algoritam", sfCodes, symbols, entropy);
+            var huffStats = CodeAnalyzer.GetAlgorithmStats("Obični Huffmanov algoritam", huffmanCodes, symbols, entropy);
+            var truncStats = CodeAnalyzer.GetAlgorithmStats("Skraćeni Huffmanov algoritam", truncatedCodes, symbols, entropy);
 
             var allStats = new[] { sfStats, huffStats, truncStats }
                 .OrderBy(s => s.avgLength)
                 .ToList();
 
-            Console.WriteLine("\nAlgorithm Comparison (ordered by average length):");
-            Console.WriteLine("─────────────────────────────────────────────────────────────");
+            Console.WriteLine("\nPoređenje algoritama (poredano po prosječnoj dužini):");
+            Console.WriteLine("┌──────┬──────────────────────┬──────────────┬─────────────┬──────────────┐");
+            Console.WriteLine("│ Rang │      Algoritam       │ L_avg (b/s)  │ Efikasnost  │ Redundancija │");
+            Console.WriteLine("├──────┼──────────────────────┼──────────────┼─────────────┼──────────────┤");
             for (int i = 0; i < allStats.Count; i++)
             {
-                string rank = i == 0 ? "★ OPTIMAL" : $"  Rank {i + 1}";
-                Console.WriteLine($"{rank}: {allStats[i].algorithmName}");
-                Console.WriteLine($"         L_avg = {allStats[i].avgLength:F4} bits/symbol");
-                Console.WriteLine($"         η = {allStats[i].efficiency:F4} ({allStats[i].efficiency * 100:F2}%)");
-                Console.WriteLine();
+                string rank = i == 0 ? " ★ " : $" {i + 1} ";
+                string name = allStats[i].algorithmName.PadRight(20);
+                double redundancy = 1 - allStats[i].efficiency;
+                Console.WriteLine($"│  {rank}  │ {name} │   {allStats[i].avgLength,10:F4} │  {allStats[i].efficiency * 100,8:F2} % │   {redundancy * 100,8:F2} % │");
             }
+            Console.WriteLine("└──────┴──────────────────────┴──────────────┴─────────────┴──────────────┘");
 
-            Console.WriteLine("Mathematical Conclusion:");
-            Console.WriteLine($"  • {allStats[0].algorithmName} is OPTIMAL with lowest L_avg = {allStats[0].avgLength:F4}");
-            Console.WriteLine($"  • Huffman coding is guaranteed to be optimal for symbol-by-symbol encoding");
-            Console.WriteLine($"  • All algorithms satisfy Kraft inequality (prefix-free codes)");
+            Console.WriteLine("\n╔═══════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                    MATEMATIČKI ZAKLJUČAK                      ║");
+            Console.WriteLine("╠═══════════════════════════════════════════════════════════════╣");
+            Console.WriteLine($"║ ★ {allStats[0].algorithmName,-57} ║");
+            Console.WriteLine($"║   je OPTIMALAN sa L_avg = {allStats[0].avgLength:F4} bits/symbol{"",-17} ║");
+            Console.WriteLine("║                                                               ║");
+            Console.WriteLine("║ • Obični Huffmanov algoritam je garantovano optimalan za      ║");
+            Console.WriteLine("║   kodiranje simbol-po-simbol (Shannon-ova teorema)           ║");
+            Console.WriteLine("║ • Svi algoritmi zadovoljavaju Kraft-ovu nejednakost          ║");
+            Console.WriteLine("║   (prefix-free kodovi)                                        ║");
+            Console.WriteLine("╚═══════════════════════════════════════════════════════════════╝");
 
-            // Encode/Decode test sequences
+            // Kodiraj/Dekodiraj testne sekvence
             Console.WriteLine("\n\n═══════════════════════════════════════════════════════════════");
-            Console.WriteLine("ENCODE/DECODE TEST SEQUENCES");
+            Console.WriteLine("TESTIRANJE KODIRANJA/DEKODIRANJA SEKVENCI");
             Console.WriteLine("═══════════════════════════════════════════════════════════════");
 
-            TestEncodingDecoding("Shannon-Fano", sfCodes, testSequence, symbols);
-            TestEncodingDecoding("Huffman", huffmanCodes, testSequence, symbols);
-            TestEncodingDecoding("Truncated-Huffman", truncatedCodes, testSequence, symbols);
+            TestEncodingDecoding("Shannon-Fano", "SF", sfCodes, testSequence, symbols);
+            TestEncodingDecoding("Huffman", "NH", huffmanCodes, testSequence, symbols);
+            TestEncodingDecoding("Truncated-Huffman", "TH", truncatedCodes, testSequence, symbols);
 
-            Console.WriteLine("\n\n✓ All encoding and decoding tests completed!");
-            Console.WriteLine("\nKey Observations:");
-            Console.WriteLine("  1. All three algorithms produce valid prefix-free codes (Kraft ≤ 1)");
-            Console.WriteLine("  2. Huffman coding achieves the lowest average codeword length");
-            Console.WriteLine("  3. All encoded sequences were decoded perfectly (100% accuracy)");
-            Console.WriteLine("  4. Compression ratios vary based on algorithm efficiency");
-            Console.WriteLine("  5. Shannon-Fano is simpler but slightly less efficient than Huffman");
-            Console.WriteLine("  6. Truncated Huffman trades some efficiency for simpler codebook");
+            Console.WriteLine("\n\n✓ Svi testovi kodiranja i dekodiranja završeni!");
+            Console.WriteLine("\nKljučna zapažanja:");
+            Console.WriteLine("  1. Sva tri algoritma proizvode valjane prefix-free kodove (Kraft ≤ 1)");
+            Console.WriteLine("  2. Obični Huffmanov algoritam postiže najnižu prosječnu dužinu kodne riječi");
+            Console.WriteLine("  3. Sve kodirane sekvence su dekodirane savršeno (100% tačnost)");
+            Console.WriteLine("  4. Omjeri kompresije variraju na osnovu efikasnosti algoritma");
+            Console.WriteLine("  5. Shannon-Fanov algoritam je jednostavniji ali malo manje efikasan");
+            Console.WriteLine("  6. Skraćeni Huffmanov algoritam mijenja dio efikasnosti za jednostavniji codebook");
 
-            Console.WriteLine("\nPress any key to return to menu...");
+            Console.WriteLine("\nPritisnite bilo koji taster za povratak na meni...");
             Console.ReadKey();
         }
 
         static void DisplaySourceInfo(List<SymbolInfo> symbols)
         {
-            Console.WriteLine("Source Analysis:");
-            Console.WriteLine($"  Total unique symbols: {symbols.Count}");
-            Console.WriteLine("\nSymbol Probabilities:");
+            Console.WriteLine("Analiza izvora:");
+            Console.WriteLine($"  Ukupno unikatnih simbola: {symbols.Count}");
+            Console.WriteLine("\nVjerovatnoće simbola:");
+            Console.WriteLine("┌──────┬────────┬──────────────┬─────────────┐");
+            Console.WriteLine("│ Simb │ Karakt │ Pojavljivanja│ Vjerovatnoća│");
+            Console.WriteLine("├──────┼────────┼──────────────┼─────────────┤");
             for (int i = 0; i < symbols.Count && i < 12; i++)
             {
-                Console.WriteLine($"  s{i} ('{symbols[i].Symbol}'): P = {symbols[i].P:F4} ({symbols[i].Count} occurrences)");
+                Console.WriteLine($"│ s{i,-3} │   {symbols[i].Symbol}    │   {symbols[i].Count,10} │    {symbols[i].P,7:F4} │");
             }
+            Console.WriteLine("└──────┴────────┴──────────────┴─────────────┘");
             if (symbols.Count > 12)
-                Console.WriteLine($"  ... and {symbols.Count - 12} more symbols");
+                Console.WriteLine($"  ... i još {symbols.Count - 12} simbola");
         }
 
-        static void TestEncodingDecoding(string algorithmName, Dictionary<char, string> codes,
+        static void TestEncodingDecoding(string algorithmName, string algorithmCode,
+                                        Dictionary<char, string> codes,
                                         string testSequence, List<SymbolInfo> symbols)
         {
-            Console.WriteLine($"\n─────────────────────────────────────────────────────────────");
-            Console.WriteLine($"Testing: {algorithmName.ToUpper()}");
-            Console.WriteLine($"─────────────────────────────────────────────────────────────");
+            Console.WriteLine($"\n┌─────────────────────────────────────────────────────────────┐");
+            Console.WriteLine($"│ Testiranje: {algorithmName.ToUpper(),-48}│");
+            Console.WriteLine($"└─────────────────────────────────────────────────────────────┘");
 
-            // Encode
+            // Kodiraj
             string encoded = EncoderDecoder.Encode(testSequence, codes);
-            string encodedFilename = $"encoded_{algorithmName.ToLower()}.txt";
+            string encodedFilename = $"MirzadV_2encode{algorithmCode}.txt";
             EncoderDecoder.SaveToFile(encodedFilename, encoded);
 
-            // Decode
+            // Dekodiraj
             string decoded = EncoderDecoder.Decode(encoded, codes);
-            string decodedFilename = $"decoded_{algorithmName.ToLower()}.txt";
+            string decodedFilename = $"MirzadV_3decode{algorithmCode}.txt";
             EncoderDecoder.SaveToFile(decodedFilename, decoded);
 
-            // Compare
+            // Uporedi
             bool identical = EncoderDecoder.CompareSequences(testSequence, decoded);
 
-            // Calculate statistics
-            int originalBits = testSequence.Length * 8; // Assuming 8 bits per character
+            // Kreiraj fajl sa rezultatima usporedbe
+            string errorFilename = $"MirzadV_4error{algorithmCode}.txt";
+            string errorReport = GenerateComparisonReport(testSequence, decoded, identical, algorithmName);
+            EncoderDecoder.SaveToFile(errorFilename, errorReport);
+
+            // Izračunaj statistiku
+            int originalBits = testSequence.Length * 8;
             int encodedBits = encoded.Length;
             double compressionRatio = EncoderDecoder.CalculateCompressionRatio(originalBits, encodedBits);
             double avgBitsPerSymbol = (double)encodedBits / testSequence.Length;
+            double savings = (1 - compressionRatio) * 100;
 
-            // Display results
-            Console.WriteLine($"  Original sequence: {testSequence.Length} symbols");
-            Console.WriteLine($"  Original size: {originalBits} bits (8 bits/symbol)");
-            Console.WriteLine($"  Encoded: {encodedBits} bits");
-            Console.WriteLine($"  Average bits/symbol: {avgBitsPerSymbol:F4}");
-            Console.WriteLine($"  Compression ratio: {compressionRatio:F4} ({compressionRatio * 100:F2}%)");
-            Console.WriteLine($"  Space savings: {(1 - compressionRatio) * 100:F2}%");
-            Console.WriteLine($"  Decoded: {decoded.Length} symbols");
-            Console.WriteLine($"  Verification: {(identical ? "✓ PASS - Sequences are IDENTICAL" : "✗ FAIL - Sequences differ")}");
-            Console.WriteLine($"  Output files: {encodedFilename}, {decodedFilename}");
+            // Tabelarni prikaz rezultata
+            Console.WriteLine("┌──────────────────────────────────────┬──────────────────────┐");
+            Console.WriteLine("│ Originalna sekvenca                  │{0,21} │", $"{testSequence.Length} simbola");
+            Console.WriteLine("│ Originalna veličina                  │{0,21} │", $"{originalBits} bita");
+            Console.WriteLine("│ Kodirano                             │{0,21} │", $"{encodedBits} bita");
+            Console.WriteLine("│ Prosječno bita/simbol                │{0,21:F4} │", avgBitsPerSymbol);
+            Console.WriteLine("│ Omjer kompresije                     │{0,20:F2} % │", compressionRatio * 100);
+            Console.WriteLine("│ Ušteda prostora                      │{0,20:F2} % │", savings);
+            Console.WriteLine("│ Dekodirano simbola                   │{0,21} │", decoded.Length);
+            Console.WriteLine("├──────────────────────────────────────┼──────────────────────┤");
+            Console.WriteLine("│ Verifikacija                         │ {0,-19} │", identical ? "✓ PROLAZ" : "✗ GREŠKA");
+            Console.WriteLine("│ Status                               │ {0,-19} │", identical ? "Sekvence IDENTIČNE" : "Sekvence RAZLIČITE");
+            Console.WriteLine("└──────────────────────────────────────┴──────────────────────┘");
+            Console.WriteLine($"  Izlazne datoteke:");
+            Console.WriteLine($"    - {encodedFilename}");
+            Console.WriteLine($"    - {decodedFilename}");
+            Console.WriteLine($"    - {errorFilename}");
+        }
+
+        static string GenerateComparisonReport(string original, string decoded, bool identical, string algorithmName)
+        {
+            var report = new System.Text.StringBuilder();
+            report.AppendLine("═══════════════════════════════════════════════════════════");
+            report.AppendLine($"REZULTATI USPOREDBE - {algorithmName}");
+            report.AppendLine("═══════════════════════════════════════════════════════════");
+            report.AppendLine();
+            report.AppendLine($"Datum: {DateTime.Now:dd.MM.yyyy HH:mm:ss}");
+            report.AppendLine();
+            report.AppendLine($"Dužina originalne sekvence: {original.Length} simbola");
+            report.AppendLine($"Dužina dekodirane sekvence: {decoded.Length} simbola");
+            report.AppendLine();
+
+            if (identical)
+            {
+                report.AppendLine("✓ STATUS: PROLAZ");
+                report.AppendLine("✓ Sekvence su IDENTIČNE");
+                report.AppendLine("✓ Svi simboli su tačno dekodirani");
+                report.AppendLine();
+                report.AppendLine("Broj grešaka: 0");
+                report.AppendLine("Tačnost: 100.00%");
+            }
+            else
+            {
+                report.AppendLine("✗ STATUS: GREŠKA");
+                report.AppendLine("✗ Sekvence se RAZLIKUJU");
+                report.AppendLine();
+
+                // Prebrojaj razlike
+                int errors = 0;
+                int minLength = Math.Min(original.Length, decoded.Length);
+                for (int i = 0; i < minLength; i++)
+                {
+                    if (original[i] != decoded[i])
+                        errors++;
+                }
+
+                // Dodaj grešku za razliku u dužini
+                errors += Math.Abs(original.Length - decoded.Length);
+
+                report.AppendLine($"Broj grešaka: {errors}");
+                report.AppendLine($"Tačnost: {((1 - (double)errors / original.Length) * 100):F2}%");
+            }
+
+            report.AppendLine();
+            report.AppendLine("═══════════════════════════════════════════════════════════");
+
+            return report.ToString();
         }
     }
 }

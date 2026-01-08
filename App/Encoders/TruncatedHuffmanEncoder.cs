@@ -18,40 +18,40 @@ namespace SourceCoding.Encoders
         {
             var codes = new Dictionary<char, string>();
 
-            // Create a modified symbol list for Huffman encoding
-            // Top K symbols keep their probabilities
-            // Remaining symbols are grouped into one "escape" symbol
+            // Kreiraj modificiranu listu simbola za Huffman kodiranje
+            // Top K simbola zadržavaju svoje vjerovatnoće
+            // Preostali simboli se grupišu u jedan "escape" simbol
             var topK = symbols.Take(k).ToList();
             var remaining = symbols.Skip(k).ToList();
 
-            // Calculate total probability of remaining symbols
+            // Izračunaj ukupnu vjerovatnoću preostalih simbola
             double escapeProb = remaining.Sum(s => s.P);
 
-            // Create a temporary symbol for the escape code
+            // Kreiraj privremeni simbol za escape kod
             var escapeSymbol = new SymbolInfo
             {
-                Symbol = '\xFF', // Special escape character
+                Symbol = '\xFF', // Poseban escape karakter
                 P = escapeProb
             };
 
-            // Add escape symbol to top K for Huffman encoding
+            // Dodaj escape simbol top K simbolima za Huffman kodiranje
             var symbolsForHuffman = topK.ToList();
             symbolsForHuffman.Add(escapeSymbol);
 
-            // Apply Huffman to top K + escape
+            // Primijeni Huffman na top K + escape
             var huffmanEncoder = new HuffmanEncoder();
             var huffmanCodes = huffmanEncoder.Encode(symbolsForHuffman);
 
-            // Assign codes to top K symbols
+            // Dodijeli kodove top K simbolima
             foreach (var sym in topK)
                 codes[sym.Symbol] = huffmanCodes[sym.Symbol];
 
-            // Get the escape code
+            // Dobavi escape kod
             string escapeCode = huffmanCodes['\xFF'];
 
-            // Fixed-length encoding for remaining symbols
+            // Fiksna dužina kodiranja za preostale simbole
             int fixedLength = (int)Math.Ceiling(Math.Log(remaining.Count, 2));
-            if (fixedLength == 0) fixedLength = 1; // Handle edge case
+            if (fixedLength == 0) fixedLength = 1; // Obradi specijalan slučaj
 
             int idx = 0;
             foreach (var sym in remaining)

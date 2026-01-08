@@ -1,117 +1,89 @@
-# Source Coding and Information Theory Analyzer
+# Analizator kodiranja izvora
 
-A C# console application that implements and compares three source coding algorithms: Shannon-Fano, Huffman, and Truncated Huffman encoding.
+Program za analizu i poređenje algoritama kodiranja izvora: Shannon-Fanov, obični Huffmanov i skraćeni Huffmanov algoritam.
 
-## Features
+## Kako pokrenuti program
 
-- **Three Encoding Algorithms**:
-  - Shannon-Fano Encoding
-  - Huffman Encoding (optimal)
-  - Truncated Huffman Encoding (k=8)
+### Na Windows-u (Visual Studio):
 
-- **Comprehensive Analysis**:
-  - Source entropy calculation
-  - Kraft inequality verification
-  - Average codeword length (L_avg)
-  - Efficiency and redundancy metrics
-  - Compression ratio analysis
+1. Otvori `App/App.csproj` u Visual Studio-u
+2. Pritisni F5 ili klikni "Start"
 
-- **Interactive Console Menu**:
-  - Run individual algorithms
-  - Compare all algorithms side-by-side
-  - Encode/decode test sequences
-  - Automatic verification
-
-## Project Structure
-
-```
-App/
-├── Program.cs                      # Main application with interactive menu
-├── Models/
-│   └── SymbolInfo.cs              # Data structures
-├── Encoders/
-│   ├── ShannonFanoEncoder.cs      # Shannon-Fano implementation
-│   ├── HuffmanEncoder.cs          # Huffman implementation
-│   └── TruncatedHuffmanEncoder.cs # Truncated Huffman implementation
-├── Analysis/
-│   ├── SourceAnalyzer.cs          # Entropy and source analysis
-│   └── CodeAnalyzer.cs            # Code metrics analysis
-└── Utils/
-    └── EncoderDecoder.cs          # Encoding/decoding utilities
-```
-
-## Requirements
-
-- .NET 10.0 or higher
-- Works on Windows, macOS, and Linux
-
-## Usage
-
-### Running the Application
+### Na Mac-u ili Linux-u:
 
 ```bash
 cd App
 dotnet run
 ```
 
-Or in Visual Studio: Open `App.csproj` and press F5
+## Kako koristiti program
 
-### Input File Format
-
-Place your test sequence in a text file (default: `testna_sekvenca.txt`). The application will:
-1. Automatically detect all unique symbols
-2. Calculate their probabilities from the data
-3. Build optimal encoding dictionaries
-
-### Example Output
+Kada pokrenete program, pojaviće se meni sa 5 opcija:
 
 ```
-╔════════════════════════════════════════════════════════════════╗
-║          SOURCE CODING AND INFORMATION THEORY ANALYSIS          ║
-╚════════════════════════════════════════════════════════════════╝
-
-ENCODING ALGORITHM MENU
-═══════════════════════════════════════════════════════════════
-Choose an encoding algorithm:
-  [1] Shannon-Fano Encoding
-  [2] Huffman Encoding
-  [3] Truncated Huffman Encoding (k=8)
-  [4] Run All Algorithms & Compare
-  [5] Exit
-
-Your choice (1-5):
+[1] Shannon-Fanov algoritam
+[2] Obični Huffmanov algoritam
+[3] Skraćeni Huffmanov algoritam (k=8)
+[4] Pokreni sve algoritme i uporedi
+[5] Izlaz
 ```
 
-## Algorithm Results
+- **Opcije 1-3**: Pokreću pojedinačni algoritam i prikazuju rezultate
+- **Opcija 4**: Pokreće sva tri algoritma i poredi ih
+- **Opcija 5**: Izlaz iz programa
 
-Based on the test sequence (10,000 symbols):
+## Testni fajl
 
-| Algorithm | L_avg (bits) | Efficiency | Space Savings |
-|-----------|--------------|------------|---------------|
-| **Huffman** ★ | 3.2734 | 99.09% | 59.08% |
-| Truncated Huffman | 3.2837 | 98.78% | 58.95% |
-| Shannon-Fano | 3.3756 | 96.09% | 57.80% |
+Program učitava testnu sekvencu iz fajla. Kada pokrenete program, pita vas:
 
-**Huffman coding is mathematically optimal** for symbol-by-symbol encoding.
+```
+Unesite naziv datoteke (default: testna_sekvenca.txt):
+```
 
-## Output Files
+- Samo pritisnite Enter ako želite koristiti `testna_sekvenca.txt`
+- Ili unesite ime drugog fajla koji se nalazi u istom folderu
 
-The application generates:
-- `encoded_[algorithm].txt` - Binary encoded sequences
-- `decoded_[algorithm].txt` - Decoded sequences (for verification)
+**Važno**: Testni fajl mora biti u istom folderu gdje se program pokreće.
 
-## Assignment Details
+## Šta program radi
 
-This project implements all tasks from the source coding assignment:
-1. ✅ Source entropy calculation
-2. ✅ Three encoding algorithms implementation
-3. ✅ Kraft inequality verification, L_avg, efficiency, redundancy
-4. ✅ Optimality analysis
-5. ✅ Sequence encoding (10,000 symbols)
-6. ✅ Sequence decoding
-7. ✅ Verification (100% accuracy)
-8. ✅ Results analysis and comments
+1. **Učitava testnu sekvencu** iz fajla
+2. **Analizira simbole** - broji koliko puta se svaki simbol pojavljuje
+3. **Izračunava entropiju** izvora
+4. **Kodira simbole** odabranim algoritmom
+5. **Prikazuje rezultate**:
+   - Kraft-ovu nejednakost
+   - Prosječnu dužinu kodne riječi
+   - Efikasnost i redundanciju
+   - Kodne riječi za svaki simbol
+6. **Testira kodiranje/dekodiranje** - kodira cijelu sekvencu i dekodira je nazad
+7. **Provjerava tačnost** - poredi originalnu sa dekodiranom sekvencom
 
-## License
+## Izlazni fajlovi
 
-Educational project - Free to use and modify
+Nakon pokretanja algoritma, program kreira fajlove:
+
+- `encoded_shannon-fano.txt` - kodirani tekst
+- `decoded_shannon-fano.txt` - dekodirani tekst
+- `encoded_huffman.txt` - kodirani tekst
+- `decoded_huffman.txt` - dekodirani tekst
+- `encoded_truncated-huffman.txt` - kodirani tekst
+- `decoded_truncated-huffman.txt` - dekodirani tekst
+
+## Primjer korištenja
+
+1. Pokrenite program
+2. Pritisnite Enter (koristi `testna_sekvenca.txt`)
+3. Izaberite opciju `4` da vidite poređenje svih algoritama
+4. Pogledajte rezultate i zaključak koji je algoritam najoptimalniji
+5. Pritisnite bilo koji taster za povratak na meni
+6. Izaberite `5` za izlaz
+
+## Requirements
+
+- .NET 8 ili noviji
+- Testni fajl sa simbolima za kodiranje
+
+## Microsoft Copilot chat:
+
+URL: https://copilot.microsoft.com/shares/jqDcEBGfFv2XKXfMFF51B

@@ -1,0 +1,17 @@
+═══════════════════════════════════════════════════════════
+REZULTATI USPOREDBE - Huffman
+═══════════════════════════════════════════════════════════
+
+Datum: 05.01.2026 17:57:36
+
+Dužina originalne sekvence: 10000 simbola
+Dužina dekodirane sekvence: 10000 simbola
+
+✓ STATUS: PROLAZ
+✓ Sekvence su IDENTIČNE
+✓ Svi simboli su tačno dekodirani
+
+Broj grešaka: 0
+Tačnost: 100.00%
+
+═══════════════════════════════════════════════════════════

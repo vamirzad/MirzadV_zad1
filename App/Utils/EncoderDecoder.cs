@@ -20,7 +20,7 @@ namespace SourceCoding.Utils
 
         public static string Decode(string bits, Dictionary<char, string> codebook)
         {
-            // Create reverse codebook
+            // Kreiraj inverzni codebook
             var reverseCodebook = codebook.ToDictionary(kv => kv.Value, kv => kv.Key);
 
             var result = new StringBuilder();
