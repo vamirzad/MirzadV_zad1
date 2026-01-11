@@ -2,7 +2,7 @@
 DETALJNA ANALIZA PERFORMANSI - Huffman
 ═══════════════════════════════════════════════════════════
 
-Datum generisanja: 10.01.2026 22:37:27
+Datum generisanja: 11.01.2026 16:59:40
 
 ┌──────────────────────────────────────┬──────────────────────┐
 | Parametar                            | Vrijednost           |

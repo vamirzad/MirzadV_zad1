@@ -1,18 +1,18 @@
 ═══════════════════════════════════════════════════════════
-DETALJNA ANALIZA PERFORMANSI - Truncated-Huffman
+DETALJNA ANALIZA PERFORMANSI - Shannon-Fano
 ═══════════════════════════════════════════════════════════
 
-Datum generisanja: 10.01.2026 22:37:27
+Datum generisanja: 11.01.2026 16:59:40
 
 ┌──────────────────────────────────────┬──────────────────────┐
 | Parametar                            | Vrijednost           |
 ├──────────────────────────────────────┼──────────────────────┤
 | Izvorna sekvenca (simboli)           |                10000 |
 | Izvorna veličina (biti)              |                80000 |
-| Kompresovano (biti)                  |                32837 |
-| Prosječno po simbolu (b/s)           |               3.2837 |
-| Stepen kompresije                    |               41.05 % |
-| Postignuta ušteda                    |               58.95 % |
+| Kompresovano (biti)                  |                33756 |
+| Prosječno po simbolu (b/s)           |               3.3756 |
+| Stepen kompresije                    |               42.20 % |
+| Postignuta ušteda                    |               57.80 % |
 | Dekompresovano simbola               |                10000 |
 ├──────────────────────────────────────┼──────────────────────┤
 | Provjera integriteta                 | USPJEŠNO            |
@@ -20,11 +20,11 @@ Datum generisanja: 10.01.2026 22:37:27
 └──────────────────────────────────────┴──────────────────────┘
 
 Generisani fajlovi:
-  - MirzadV_2encodeTH.txt (kodirana sekvenca)
-  - MirzadV_3decodeTH.txt (dekodirana sekvenca)
+  - MirzadV_2encodeSF.txt (kodirana sekvenca)
+  - MirzadV_3decodeSF.txt (dekodirana sekvenca)
 
 ═══════════════════════════════════════════════════════════
-REZULTATI VALIDACIJE - Truncated-Huffman
+REZULTATI VALIDACIJE - Shannon-Fano
 ═══════════════════════════════════════════════════════════
 
 Dužina originalne sekvence: 10000 simbola
