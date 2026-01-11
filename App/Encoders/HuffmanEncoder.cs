@@ -8,26 +8,21 @@ namespace SourceCoding.Encoders
     {
         public Dictionary<char, string> Encode(List<SymbolInfo> symbols)
         {
-            // Izgradi prioritetni red sa početnim čvorovima
             var pq = new List<Node>();
             foreach (var s in symbols)
             {
                 pq.Add(new Node { Freq = s.P, Symbol = s.Symbol });
             }
 
-            // Izgradi Huffman stablo
             while (pq.Count > 1)
             {
-                // Sortiraj po učestalosti
                 pq = pq.OrderBy(n => n.Freq).ToList();
 
-                // Uzmi dva čvora sa najmanjim učestalostima
                 var left = pq[0];
                 var right = pq[1];
                 pq.RemoveAt(0);
                 pq.RemoveAt(0);
 
-                // Kreiraj roditeljski čvor
                 var parent = new Node
                 {
                     Freq = left.Freq + right.Freq,
@@ -37,7 +32,6 @@ namespace SourceCoding.Encoders
                 pq.Add(parent);
             }
 
-            // Generiši kodove iz stabla
             var codes = new Dictionary<char, string>();
             var root = pq[0];
             AssignCodes(root, "", codes);

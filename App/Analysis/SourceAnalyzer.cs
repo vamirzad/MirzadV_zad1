@@ -20,7 +20,6 @@ namespace SourceCoding.Analysis
 
         public static List<SymbolInfo> AnalyzeSequence(string content)
         {
-            // Prebroj pojavljivanja svih simbola
             var counts = new Dictionary<char, int>();
 
             foreach (char c in content)
@@ -31,7 +30,6 @@ namespace SourceCoding.Analysis
                     counts[c] = 1;
             }
 
-            // Izračunaj vjerovatnoće i kreiraj SymbolInfo listu (poređano po vjerovatnoći)
             var symbols = counts
                 .Select(kv => new SymbolInfo
                 {

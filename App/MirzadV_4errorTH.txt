@@ -1,15 +1,38 @@
 ═══════════════════════════════════════════════════════════
-REZULTATI USPOREDBE - Truncated-Huffman
+DETALJNA ANALIZA PERFORMANSI - Truncated-Huffman
 ═══════════════════════════════════════════════════════════
 
-Datum: 05.01.2026 17:57:36
+Datum generisanja: 10.01.2026 22:37:27
+
+┌──────────────────────────────────────┬──────────────────────┐
+| Parametar                            | Vrijednost           |
+├──────────────────────────────────────┼──────────────────────┤
+| Izvorna sekvenca (simboli)           |                10000 |
+| Izvorna veličina (biti)              |                80000 |
+| Kompresovano (biti)                  |                32837 |
+| Prosječno po simbolu (b/s)           |               3.2837 |
+| Stepen kompresije                    |               41.05 % |
+| Postignuta ušteda                    |               58.95 % |
+| Dekompresovano simbola               |                10000 |
+├──────────────────────────────────────┼──────────────────────┤
+| Provjera integriteta                 | USPJEŠNO            |
+| Stanje sekvence                      | POKLAPANJE          |
+└──────────────────────────────────────┴──────────────────────┘
+
+Generisani fajlovi:
+  - MirzadV_2encodeTH.txt (kodirana sekvenca)
+  - MirzadV_3decodeTH.txt (dekodirana sekvenca)
+
+═══════════════════════════════════════════════════════════
+REZULTATI VALIDACIJE - Truncated-Huffman
+═══════════════════════════════════════════════════════════
 
 Dužina originalne sekvence: 10000 simbola
 Dužina dekodirane sekvence: 10000 simbola
 
-✓ STATUS: PROLAZ
-✓ Sekvence su IDENTIČNE
-✓ Svi simboli su tačno dekodirani
+STATUS: PROLAZ
+Sekvence su IDENTIČNE
+Svi simboli su tačno dekodirani
 
 Broj grešaka: 0
 Tačnost: 100.00%

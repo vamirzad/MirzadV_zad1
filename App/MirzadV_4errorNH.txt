@@ -1,15 +1,38 @@
 ═══════════════════════════════════════════════════════════
-REZULTATI USPOREDBE - Huffman
+DETALJNA ANALIZA PERFORMANSI - Huffman
 ═══════════════════════════════════════════════════════════
 
-Datum: 05.01.2026 17:57:36
+Datum generisanja: 10.01.2026 22:37:27
+
+┌──────────────────────────────────────┬──────────────────────┐
+| Parametar                            | Vrijednost           |
+├──────────────────────────────────────┼──────────────────────┤
+| Izvorna sekvenca (simboli)           |                10000 |
+| Izvorna veličina (biti)              |                80000 |
+| Kompresovano (biti)                  |                32734 |
+| Prosječno po simbolu (b/s)           |               3.2734 |
+| Stepen kompresije                    |               40.92 % |
+| Postignuta ušteda                    |               59.08 % |
+| Dekompresovano simbola               |                10000 |
+├──────────────────────────────────────┼──────────────────────┤
+| Provjera integriteta                 | USPJEŠNO            |
+| Stanje sekvence                      | POKLAPANJE          |
+└──────────────────────────────────────┴──────────────────────┘
+
+Generisani fajlovi:
+  - MirzadV_2encodeNH.txt (kodirana sekvenca)
+  - MirzadV_3decodeNH.txt (dekodirana sekvenca)
+
+═══════════════════════════════════════════════════════════
+REZULTATI VALIDACIJE - Huffman
+═══════════════════════════════════════════════════════════
 
 Dužina originalne sekvence: 10000 simbola
 Dužina dekodirane sekvence: 10000 simbola
 
-✓ STATUS: PROLAZ
-✓ Sekvence su IDENTIČNE
-✓ Svi simboli su tačno dekodirani
+STATUS: PROLAZ
+Sekvence su IDENTIČNE
+Svi simboli su tačno dekodirani
 
 Broj grešaka: 0
 Tačnost: 100.00%

@@ -32,12 +32,10 @@ namespace SourceCoding.Encoders
         {
             if (start >= end) return;
 
-            // Izračunaj ukupnu vjerovatnoću u ovom rasponu
             double total = 0;
             for (int i = start; i <= end; i++)
                 total += symbols[i].P;
 
-            // Pronađi tačku podjele koja dijeli vjerovatnoće što je moguće ravnomjernije
             double acc = 0;
             int split = start;
             for (int i = start; i <= end; i++)
@@ -47,13 +45,11 @@ namespace SourceCoding.Encoders
                 if (acc >= total / 2) break;
             }
 
-            // Dodijeli 0 prvoj grupi, 1 drugoj grupi
             for (int i = start; i <= split; i++)
                 symbols[i].Code += "0";
             for (int i = split + 1; i <= end; i++)
                 symbols[i].Code += "1";
 
-            // Rekurzivno kodiraj svaku grupu
             ShannonFanoRecursive(symbols, start, split);
             ShannonFanoRecursive(symbols, split + 1, end);
         }
